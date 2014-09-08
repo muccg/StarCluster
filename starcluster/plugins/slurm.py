@@ -121,7 +121,7 @@ class SlurmPlugin(clustersetup.DefaultClusterSetup):
         self._restart_slurm(node)
 
     def on_remove_node(self, node, nodes, master, user, user_shell, volumes):
-        self._nodes = nodes
+        self._nodes = [t for t in nodes if t != node]
         self._master = master
         self._user = user
         self._user_shell = user_shell
