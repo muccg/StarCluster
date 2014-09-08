@@ -25,8 +25,8 @@ class SlurmPlugin(clustersetup.DefaultClusterSetup):
     SLURM_CONFDIR = '/etc/slurm-llnl'
     MUNGE_CONFDIR = '/etc/munge'
     MUNGE_DEFAULTS = '/etc/default/munge'
-    SLURM_SERVICE =  'slurm-llnl'
-    MUNGE_SERVICE =  'munge'
+    SLURM_SERVICE = 'slurm-llnl'
+    MUNGE_SERVICE = 'munge'
 
     def __init__(self, master_can_run_jobs=True, **kwargs):
         self._master_can_run_jobs = master_can_run_jobs
@@ -36,8 +36,8 @@ class SlurmPlugin(clustersetup.DefaultClusterSetup):
         return posixpath.join(self.SLURM_CONFDIR, path)
 
     def get_worker_nodes(self):
-        return [t for t in self._nodes if \
-            self._master_can_run_jobs or not t.is_master()]
+        return [t for t in self._nodes if
+                self._master_can_run_jobs or not t.is_master()]
 
     def _node_defs(self):
         lines = []
@@ -91,7 +91,8 @@ class SlurmPlugin(clustersetup.DefaultClusterSetup):
         log.info("Configuring and starting Slurm")
         self._update_config()
         for node in [self._master] + self.nodes:
-            self.pool.simple_job(self._start_services, (node,), jobid=node.alias)
+            self.pool.simple_job(
+                self._start_services, (node,), jobid=node.alias)
         self.pool.wait(numtasks=len(self.nodes))
 
     def run(self, nodes, master, user, user_shell, volumes):
